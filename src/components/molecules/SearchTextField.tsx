@@ -4,7 +4,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 
-function SearchTextField({ fullWidth = false }: { fullWidth?: boolean }) {
+type SearchTextFieldProps = {
+  fullWidth?: boolean;
+};
+
+const SearchTextField = ({ fullWidth = false }: SearchTextFieldProps) => {
   const [text, setText] = React.useState("");
 
   const handleTextChange = (event: React.ChangeEvent<{ value: string }>) => {
@@ -36,6 +40,6 @@ function SearchTextField({ fullWidth = false }: { fullWidth?: boolean }) {
       }
     />
   );
-}
+};
 
 export default SearchTextField;

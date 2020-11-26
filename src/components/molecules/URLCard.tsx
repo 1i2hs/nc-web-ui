@@ -1,5 +1,5 @@
 import * as React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -9,34 +9,34 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 240,
-  },
-});
+import { URLData } from "../../types";
 
-function URLCard({
-  title,
-  dateAdded,
-  abstract = "",
-  imageUrl,
-  url,
-  isFavorite = false,
-  onClick = () => {},
-  onClickFavorite = () => {},
-}: {
-  title: string;
-  dateAdded: string | number;
-  abstract?: string;
-  imageUrl: string;
-  url: string;
-  isFavorite: boolean;
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      maxWidth: 280,
+    },
+    media: {
+      height: 160,
+    },
+  })
+);
+
+type URLCardProps = {
+  data: URLData;
   onClick?: (event: React.MouseEvent) => void;
   onClickFavorite?: (isFavorite: boolean) => void;
-}) {
+  onClickShare?: (event: React.MouseEvent) => void;
+  onClickDelete?: (event: React.MouseEvent) => void;
+};
+
+const URLCard = ({
+  data: { title, dateAdded, abstract = "", imageUrl, url, isFavorite = false },
+  onClick = () => {},
+  onClickFavorite = () => {},
+  onClickShare = () => {},
+  onClickDelete = () => {},
+}: URLCardProps) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -64,15 +64,15 @@ function URLCard({
         >
           <Icon>{isFavorite ? "favorite" : "favorite_border"}</Icon>
         </IconButton>
-        <IconButton title="share" aria-label="share">
+        <IconButton title="share" aria-label="share" onClick={onClickShare}>
           <Icon>share</Icon>
         </IconButton>
-        <IconButton title="delete" aria-label="delete">
+        <IconButton title="delete" aria-label="delete" onClick={onClickDelete}>
           <Icon>delete</Icon>
         </IconButton>
       </CardActions>
     </Card>
   );
-}
+};
 
 export default URLCard;
