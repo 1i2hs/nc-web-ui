@@ -8,8 +8,11 @@ import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import Grid from "@material-ui/core/Grid";
+import Chip from "@material-ui/core/Chip";
 
 import { URLData } from "../../types";
+import * as Util from "../../util";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     media: {
       height: 160,
+    },
+    tag: {
+      marginTop: 8,
     },
   })
 );
@@ -28,14 +34,24 @@ type URLCardProps = {
   onClickFavorite?: (isFavorite: boolean) => void;
   onClickShare?: (event: React.MouseEvent) => void;
   onClickDelete?: (event: React.MouseEvent) => void;
+  onClickTag?: (tag: string, event: React.MouseEvent) => void;
 };
 
 const URLCard = ({
-  data: { title, dateAdded, abstract = "", imageUrl, url, isFavorite = false },
+  data: {
+    title,
+    dateAdded,
+    abstract = "",
+    imageUrl,
+    url,
+    isFavorite = false,
+    tagList = [],
+  },
   onClick = () => {},
   onClickFavorite = () => {},
   onClickShare = () => {},
   onClickDelete = () => {},
+  onClickTag = () => {},
 }: URLCardProps) => {
   const classes = useStyles();
   return (
@@ -54,6 +70,27 @@ const URLCard = ({
               ? abstract.slice(0, 160)
               : abstract}
           </Typography>
+          <Grid
+            className={classes.tag}
+            item
+            container
+            justify="flex-start"
+            spacing={1}
+          >
+            {tagList.map((tag) => (
+              <Grid item key={tag}>
+                <Chip
+                  label={tag}
+                  clickable
+                  color="secondary"
+                  size="small"
+                  onClick={Util.wrapClickHandlerWithStopPropagation(
+                    onClickTag.bind(URLCard, tag)
+                  )}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </CardContent>
       </CardActionArea>
       <CardActions>

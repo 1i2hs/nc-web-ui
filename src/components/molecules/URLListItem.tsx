@@ -5,6 +5,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
+import Chip from "@material-ui/core/Chip";
 
 import { URLData } from "../../types";
 import * as Util from "../../util";
@@ -26,28 +27,52 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 64,
       objectFit: "cover",
     },
+    actionArea: {
+      "&:hover $focusHighlight": {
+        opacity: 0,
+      },
+    },
+    focusHighlight: {},
   })
 );
 
 type URLListItemProps = {
   data: URLData;
   onClick?: (event: React.MouseEvent) => void;
-  onClickFavorite?: (isFavorite: boolean) => void;
+  onClickFavorite?: (isFavorite: boolean, event: React.MouseEvent) => void;
   onClickShare?: (event: React.MouseEvent) => void;
   onClickDelete?: (event: React.MouseEvent) => void;
+  onClickTag?: (tag: string, event: React.MouseEvent) => void;
 };
 
 const URLListItem = ({
-  data: { title, dateAdded, abstract = "", imageUrl, url, isFavorite = false },
+  data: {
+    title,
+    dateAdded,
+    abstract = "",
+    imageUrl,
+    url,
+    isFavorite = false,
+    tagList = [],
+  },
   onClick = () => {},
   onClickFavorite = () => {},
   onClickShare = () => {},
   onClickDelete = () => {},
+  onClickTag = () => {},
 }: URLListItemProps) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <CardActionArea component="div" onClick={onClick}>
+      <CardActionArea
+        classes={{
+          root: classes.actionArea,
+          focusHighlight: classes.focusHighlight,
+        }}
+        component="div"
+        onClick={onClick}
+        title={url}
+      >
         <Grid container direction="column">
           <Grid container item style={{ marginBottom: 8 }}>
             <Grid className={classes.textContent} item xs={8}>
@@ -114,10 +139,20 @@ const URLListItem = ({
               </Grid>
             </Grid>
           </Grid>
-          <Grid item container justify="flex-start">
-            <div>#One</div>
-            <div>#Two</div>
-            <div>#Three</div>
+          <Grid item container justify="flex-start" spacing={1}>
+            {tagList.map((tag) => (
+              <Grid item key={tag}>
+                <Chip
+                  label={tag}
+                  clickable
+                  color="secondary"
+                  size="small"
+                  onClick={Util.wrapClickHandlerWithStopPropagation(
+                    onClickTag.bind(URLListItem, tag)
+                  )}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </CardActionArea>

@@ -2,6 +2,7 @@ import React from "react";
 
 import RecentURLList from "./components/organisms/RecentURLList";
 import URLListItem from "./components/molecules/URLListItem";
+import URLCard from "./components/molecules/URLCard";
 import { URLData } from "./types";
 import logo from "./logo.svg";
 import "./App.css";
@@ -15,6 +16,7 @@ const urlDataList: Array<URLData> = [
     imageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
     url: "https://www.naver.com",
     isFavorite: false,
+    tagList: ["#one", "#two", "#three", "#four", "#five", "#six"],
   },
   {
     title: "Title 2",
@@ -24,6 +26,7 @@ const urlDataList: Array<URLData> = [
     imageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
     url: "https://www.naver.com",
     isFavorite: true,
+    tagList: ["#one", "#two", "#three", "#four", "#five", "#six"],
   },
   {
     title: "Title 3",
@@ -33,6 +36,7 @@ const urlDataList: Array<URLData> = [
     imageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
     url: "https://www.naver.com",
     isFavorite: true,
+    tagList: ["#one", "#two", "#three", "#four", "#five", "#six"],
   },
   {
     title: "Title 4",
@@ -42,6 +46,7 @@ const urlDataList: Array<URLData> = [
     imageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
     url: "https://www.naver.com",
     isFavorite: false,
+    tagList: ["#one", "#two", "#three", "#four", "#five", "#six"],
   },
   {
     title: "Title 5",
@@ -51,22 +56,14 @@ const urlDataList: Array<URLData> = [
     imageUrl: "https://www.gstatic.com/webp/gallery/1.jpg",
     url: "https://www.naver.com",
     isFavorite: false,
+    tagList: ["#one", "#two", "#three", "#four", "#five", "#six"],
   },
 ];
 
 function App() {
   return (
     <div className="App">
-      {/* <RecentURLList data={urlDataList} /> */}
-      <URLListItem
-        data={urlDataList[0]}
-        onClick={() => {
-          console.log("clicked");
-        }}
-        onClickFavorite={(isFavorite) => {
-          console.log(isFavorite);
-        }}
-      />
+      <RecentURLList data={urlDataList} />
     </div>
   );
 }

@@ -5,4 +5,5 @@ export interface URLData {
   imageUrl: string;
   url: string;
   isFavorite: boolean;
+  tagList: Array<string>;
 }
