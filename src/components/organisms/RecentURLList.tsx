@@ -40,6 +40,7 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
 
   return (
     <div className={classes.root}>
+      {/* non-mobile */}
       <Hidden xsDown>
         <Grid container direction="row" justify="center" spacing={2}>
           {recentList.length > 0 &&
@@ -57,6 +58,7 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
             ))}
         </Grid>
       </Hidden>
+      {/* mobile */}
       <Hidden smUp>
         <List>
           {recentList.length > 0 &&

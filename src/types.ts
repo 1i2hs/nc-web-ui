@@ -7,3 +7,5 @@ export interface URLData {
   isFavorite: boolean;
   tagList: Array<string>;
 }
+
+export type MainMenuItemName = "all" | "favorite" | "archive" | "tag";

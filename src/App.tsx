@@ -1,11 +1,12 @@
-import React from "react";
-
+import * as React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import RecentURLList from "./components/organisms/RecentURLList";
 import URLListItem from "./components/molecules/URLListItem";
 import URLCard from "./components/molecules/URLCard";
+import MainMenu from "./components/molecules/MainMenu";
+import MainBottomMenu from "./components/molecules/MainBottomMenu";
+import DeleteAlertDialog from "./components/molecules/DeleteAlertDialog";
 import { URLData } from "./types";
-import logo from "./logo.svg";
-import "./App.css";
 
 const urlDataList: Array<URLData> = [
   {
@@ -61,10 +62,41 @@ const urlDataList: Array<URLData> = [
 ];
 
 function App() {
+  const [openDeleteAlertDialog, setOpenDeleteDialog] = React.useState(false);
   return (
-    <div className="App">
+    <>
+      <CssBaseline />
       <RecentURLList data={urlDataList} />
-    </div>
+      <MainMenu
+        onClickMenuItem={(clickedItem, event) => {
+          console.log(clickedItem);
+        }}
+      />
+      <MainBottomMenu
+        onChangeMenuItem={(selectedItem, event) => {
+          console.log(selectedItem);
+          console.log(event);
+        }}
+      />
+      <button
+        onClick={() => {
+          setOpenDeleteDialog(true);
+        }}
+      >
+        Test delete alert dialog
+      </button>
+      <DeleteAlertDialog
+        open={openDeleteAlertDialog}
+        message="Do you really want to delete?"
+        description="The data will be permanently deleted from DB"
+        onClickCancel={() => {
+          setOpenDeleteDialog(false);
+        }}
+        onClickDelete={() => {
+          setOpenDeleteDialog(false);
+        }}
+      />
+    </>
   );
 }
 
