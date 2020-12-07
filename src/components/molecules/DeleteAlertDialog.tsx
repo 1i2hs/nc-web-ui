@@ -24,13 +24,13 @@ const DeleteAlertDialog = ({
   return (
     <Dialog
       open={open}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
+      aria-labelledby="delete-dialog-title"
+      aria-describedby="delete-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{message}</DialogTitle>
+      <DialogTitle id="delete-dialog-title">{message}</DialogTitle>
       {description && (
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="delete-dialog-description">
             {description}
           </DialogContentText>
         </DialogContent>

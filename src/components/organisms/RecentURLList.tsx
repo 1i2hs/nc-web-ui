@@ -1,19 +1,13 @@
 import * as React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Paper from "@material-ui/core/Paper";
 
 import URLCard from "../molecules/URLCard";
 import URLListItem from "../molecules/URLListItem";
 import { URLData } from "../../types";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // overflowX: "scroll",
-  },
-}));
 
 type RecentURLListProps = {
   data: Array<URLData>;
@@ -21,14 +15,13 @@ type RecentURLListProps = {
 };
 
 const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
-  const classes = useStyles();
-
   const recentList =
     data === null || data === undefined
       ? []
       : data.length > count
       ? data.slice(0, count)
       : data;
+  const recentListCount = recentList.length;
 
   const handleClickFavoriteButton = (isFavorite: boolean) => {
     console.log(isFavorite);
@@ -39,7 +32,7 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       {/* non-mobile */}
       <Hidden xsDown>
         <Grid container direction="row" justify="center" spacing={2}>
@@ -60,21 +53,23 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
       </Hidden>
       {/* mobile */}
       <Hidden smUp>
-        <List>
-          {recentList.length > 0 &&
-            recentList.map((urlData: URLData) => (
-              <ListItem divider>
-                <URLListItem
-                  data={urlData}
-                  onClick={handleClickCard}
-                  onClickFavorite={handleClickFavoriteButton}
-                  // onClickDelete={}
-                  // onClickShare={}
-                  // onClickTag={}
-                />
-              </ListItem>
-            ))}
-        </List>
+        <Paper square>
+          <List>
+            {recentListCount > 0 &&
+              recentList.map((urlData: URLData, index: number) => (
+                <ListItem divider={index < recentListCount - 1}>
+                  <URLListItem
+                    data={urlData}
+                    onClick={handleClickCard}
+                    onClickFavorite={handleClickFavoriteButton}
+                    // onClickDelete={}
+                    // onClickShare={}
+                    // onClickTag={}
+                  />
+                </ListItem>
+              ))}
+          </List>
+        </Paper>
       </Hidden>
     </div>
     // Use <Hidden xxup /> to show appropriate recent list UI at each breakpoint

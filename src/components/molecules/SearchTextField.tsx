@@ -1,14 +1,40 @@
 import * as React from "react";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      padding: "2px 4px",
+      display: "flex",
+      alignItems: "center",
+    },
+    input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+    },
+    iconButton: {
+      padding: 10,
+    },
+    divider: {
+      height: 28,
+      margin: 4,
+    },
+  })
+);
+
 type SearchTextFieldProps = {
-  fullWidth?: boolean;
+  // fullWidth?: boolean;
+  width?: string | number;
 };
 
-const SearchTextField = ({ fullWidth = false }: SearchTextFieldProps) => {
+const SearchTextField = ({
+  /* fullWidth = false */ width = "100%",
+}: SearchTextFieldProps) => {
+  const classes = useStyles();
   const [text, setText] = React.useState("");
 
   const handleTextChange = (event: React.ChangeEvent<{ value: string }>) => {
@@ -21,24 +47,23 @@ const SearchTextField = ({ fullWidth = false }: SearchTextFieldProps) => {
   };
 
   return (
-    <OutlinedInput
-      placeholder="Search"
-      multiline
-      fullWidth={fullWidth}
-      value={text}
-      onChange={handleTextChange}
-      endAdornment={
-        <InputAdornment position="end">
-          <IconButton
-            title="search"
-            aria-label="Go Search!"
-            onClick={handleClickSearch}
-          >
-            <Icon>search</Icon>
-          </IconButton>
-        </InputAdornment>
-      }
-    />
+    <Paper className={classes.root} style={{ width }}>
+      <InputBase
+        className={classes.input}
+        placeholder="Search"
+        value={text}
+        onChange={handleTextChange}
+        inputProps={{ "aria-label": "search posts" }}
+        multiline
+      />
+      <IconButton
+        title="search"
+        aria-label="Go Search!"
+        onClick={handleClickSearch}
+      >
+        <Icon>search</Icon>
+      </IconButton>
+    </Paper>
   );
 };
 
