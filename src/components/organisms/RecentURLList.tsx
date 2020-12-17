@@ -32,33 +32,38 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
   };
 
   return (
-    <div>
+    <>
       {/* non-mobile */}
       <Hidden xsDown>
-        <Grid container direction="row" justify="center" spacing={2}>
-          {recentList.length > 0 &&
-            recentList.map((urlData: URLData) => (
-              <Grid item>
-                <URLCard
-                  data={urlData}
-                  onClick={handleClickCard}
-                  onClickFavorite={handleClickFavoriteButton}
-                  // onClickDelete={}
-                  // onClickShare={}
-                  // onClickTag={}
-                />
-              </Grid>
-            ))}
-        </Grid>
+        <div style={{ padding: 4 }}>
+          {/* <Grid container direction="row" justify="center" spacing={2}> */}
+          <Grid container direction="column" alignItems="center" spacing={1}>
+            {recentList.length > 0 &&
+              recentList.map((urlData: URLData) => (
+                <Grid item>
+                  <URLCard
+                    key={urlData.id}
+                    data={urlData}
+                    onClick={handleClickCard}
+                    onClickFavorite={handleClickFavoriteButton}
+                    // onClickDelete={}
+                    // onClickShare={}
+                    // onClickTag={}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        </div>
       </Hidden>
       {/* mobile */}
       <Hidden smUp>
         <Paper square>
-          <List>
+          <List disablePadding>
             {recentListCount > 0 &&
               recentList.map((urlData: URLData, index: number) => (
-                <ListItem divider={index < recentListCount - 1}>
+                <ListItem divider={index < recentListCount - 1} disableGutters>
                   <URLListItem
+                    key={urlData.id}
                     data={urlData}
                     onClick={handleClickCard}
                     onClickFavorite={handleClickFavoriteButton}
@@ -71,7 +76,7 @@ const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
           </List>
         </Paper>
       </Hidden>
-    </div>
+    </>
     // Use <Hidden xxup /> to show appropriate recent list UI at each breakpoint
   );
 };

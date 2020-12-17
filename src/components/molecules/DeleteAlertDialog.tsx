@@ -26,6 +26,7 @@ const DeleteAlertDialog = ({
       open={open}
       aria-labelledby="delete-dialog-title"
       aria-describedby="delete-dialog-description"
+      onEscapeKeyDown={onClickCancel}
     >
       <DialogTitle id="delete-dialog-title">{message}</DialogTitle>
       {description && (
