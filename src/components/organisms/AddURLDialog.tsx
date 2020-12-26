@@ -6,9 +6,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Chip from "@material-ui/core/Chip";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
@@ -17,6 +14,9 @@ import { TransitionProps } from "@material-ui/core/transitions";
 
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
+
+import SearchTagAutoComplete from "../molecules/SearchTagAutoComplete";
+import { NewURLData } from "../../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "space-between",
       padding: "8px",
     },
-    searchTagField: {
-      margin: "0px 16px",
+    addURLTextField: {
+      margin: "8px 0px",
+      width: "100%",
     },
-    searchTagFieldAdornedEnd: {
+    addURLTextFieldAdornedEnd: {
       paddingRight: "0px",
     },
     listItem: {
@@ -44,15 +45,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type SearchTagFieldProps = {
-  fullWidth?: boolean;
-  onChangeText: (
+type AddURLTextFieldProps = {
+  onChangeText?: (
     text: string,
     event: React.ChangeEvent<{ value: string }>
   ) => void;
+  onBlur?: (
+    text: string,
+    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
-const SearchTagField = ({ onChangeText = () => {} }: SearchTagFieldProps) => {
+const AddURLTextField = ({
+  onChangeText = () => {},
+  onBlur = () => {},
+}: AddURLTextFieldProps) => {
   const classes = useStyles();
   const [text, setText] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -63,6 +70,12 @@ const SearchTagField = ({ onChangeText = () => {} }: SearchTagFieldProps) => {
     onChangeText(changedText, event);
   };
 
+  const handleBlur = (
+    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    onBlur(text, event);
+  };
+
   const handleClearText = () => {
     setText("");
     inputRef.current?.focus();
@@ -70,19 +83,19 @@ const SearchTagField = ({ onChangeText = () => {} }: SearchTagFieldProps) => {
 
   return (
     <OutlinedInput
-      id="search-tag-input"
-      className={classes.searchTagField}
+      className={classes.addURLTextField}
       classes={{
-        adornedEnd: classes.searchTagFieldAdornedEnd,
+        adornedEnd: classes.addURLTextFieldAdornedEnd,
       }}
       inputRef={inputRef}
-      placeholder="Search Tag"
+      placeholder="Add URL"
       value={text}
       margin="dense"
       onChange={handleTextChange}
+      onBlur={handleBlur}
       startAdornment={
         <InputAdornment position="start">
-          <Icon fontSize="small">search</Icon>
+          <Icon fontSize="small">link</Icon>
         </InputAdornment>
       }
       endAdornment={
@@ -102,12 +115,6 @@ const SearchTagField = ({ onChangeText = () => {} }: SearchTagFieldProps) => {
   );
 };
 
-type SearchTagDialogProps = {
-  open: boolean;
-  onClickClose: (event: React.MouseEvent) => void;
-  onClickApply: (event: React.MouseEvent) => void;
-};
-
 const Transition = React.forwardRef(
   (
     props: TransitionProps & { children?: React.ReactElement },
@@ -117,12 +124,30 @@ const Transition = React.forwardRef(
   }
 );
 
-const SearchTagDialog = ({
+const baseNewUrlDataList = [
+  {
+    url: "",
+    tagList: [],
+  },
+];
+
+type AddURLDialogProps = {
+  open: boolean;
+  onClickClose: (
+    event: React.MouseEvent | React.SyntheticEvent<{}, Event>
+  ) => void;
+  onClickAdd: (event: React.MouseEvent) => void;
+};
+
+const AddURLDialog = ({
   open = false,
   onClickClose = () => {},
-  onClickApply = () => {},
-}: SearchTagDialogProps) => {
+  onClickAdd = () => {},
+}: AddURLDialogProps) => {
   const classes = useStyles();
+  const [newURLDataList, setNewURLDataList] = React.useState<Array<NewURLData>>(
+    baseNewUrlDataList
+  );
   const [tagList, setTagList] = React.useState<Array<string>>([
     "tag1",
     "tag2",
@@ -131,30 +156,53 @@ const SearchTagDialog = ({
     "tag5",
     "tag6",
     "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
+    "tag8",
+    "tag9",
+    "tag10",
+    "tag11",
+    "tag12",
+    "tag13",
+    "tag14",
+    "tag15",
   ]);
 
   const tagCount = tagList.length;
+
+  const renderNewURLInputComponent = (index: number) => (
+    <div>
+      <AddURLTextField
+        onBlur={(urlText) => {
+          setNewURLDataList(
+            newURLDataList.map((newURLData, i) =>
+              i === index ? { ...newURLData, url: urlText } : newURLData
+            )
+          );
+        }}
+      />
+      <SearchTagAutoComplete
+        data={tagList === undefined || tagList === null ? [] : tagList}
+        onChangeTagSelection={(_, selection) => {
+          setNewURLDataList(
+            newURLDataList.map((newURLData, i) =>
+              i === index ? { ...newURLData, tagList: selection } : newURLData
+            )
+          );
+        }}
+        style={{ marginBottom: 16 }}
+      />
+    </div>
+  );
+
+  const createNewURLInputComponent = () => {
+    setNewURLDataList(
+      newURLDataList.concat([
+        {
+          url: "",
+          tagList: [],
+        },
+      ])
+    );
+  };
 
   return (
     <>
@@ -164,44 +212,46 @@ const SearchTagDialog = ({
           open={open}
           fullWidth
           maxWidth={"xs"}
-          onEscapeKeyDown={onClickClose}
+          onEscapeKeyDown={(event) => {
+            setNewURLDataList(baseNewUrlDataList);
+            onClickClose(event);
+          }}
           scroll="paper"
         >
-          <DialogTitle id="search-tag-dialog-title">Search Tag</DialogTitle>
-          <SearchTagField onChangeText={(tag) => console.log(tag)} />
+          <DialogTitle id="add-url-dialog-title">Add new URL</DialogTitle>
           <DialogContent>
-            <List>
-              {tagList.map((tag: string, index: number) => (
-                <ListItem
-                  classes={{
-                    root: classes.listItem,
-                  }}
-                  key={`${tag}-${index}`}
-                  button
-                  divider={index < tagCount - 1}
-                >
-                  {/* <ListItemText primary={tag} /> */}
-                  <div>{tag}</div>
-                  <Chip size="small" label={10} color="primary" />
-                </ListItem>
-              ))}
-            </List>
+            {newURLDataList.map((_, index) =>
+              renderNewURLInputComponent(index)
+            )}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={createNewURLInputComponent}
+            >
+              Add MORE
+            </Button>
           </DialogContent>
           <DialogActions>
             <Button
               title="close dialog"
               aria-label="close dialog"
-              onClick={onClickClose}
+              onClick={(event) => {
+                setNewURLDataList(baseNewUrlDataList);
+                onClickClose(event);
+              }}
             >
               Cancel
             </Button>
             <Button
-              title="apply tags"
-              aria-label="apply tags"
+              title="add url"
+              aria-label="add url"
               color="primary"
-              onClick={onClickApply}
+              onClick={(event) => {
+                setNewURLDataList(baseNewUrlDataList);
+                onClickAdd(event);
+              }}
             >
-              Apply
+              Add
             </Button>
           </DialogActions>
         </Dialog>
@@ -215,7 +265,7 @@ const SearchTagDialog = ({
           scroll="paper"
         >
           <DialogTitle
-            id="search-tag-dialog-title"
+            id="add-url-dialog-title"
             className={classes.mobileTitle}
             disableTypography
           >
@@ -223,39 +273,38 @@ const SearchTagDialog = ({
               <IconButton
                 title="close dialog"
                 aria-label="close dialog"
-                onClick={onClickClose}
+                onClick={(event) => {
+                  setNewURLDataList(baseNewUrlDataList);
+                  onClickClose(event);
+                }}
               >
                 <Icon>close</Icon>
               </IconButton>
-              <Typography variant="h6">Search Tag</Typography>
+              <Typography variant="h6">Add new URL</Typography>
             </div>
             <Button
-              title="apply tags"
-              aria-label="apply tags"
+              title="add url"
+              aria-label="add url"
               color="primary"
-              onClick={onClickApply}
+              onClick={(event) => {
+                setNewURLDataList(baseNewUrlDataList);
+                onClickAdd(event);
+              }}
             >
-              Apply
+              Add
             </Button>
           </DialogTitle>
-          <SearchTagField onChangeText={(tag) => console.log(tag)} />
           <DialogContent>
-            <List disablePadding>
-              {tagList.map((tag: string, index: number) => (
-                <ListItem
-                  classes={{
-                    root: classes.listItem,
-                  }}
-                  key={`${tag}-${index}`}
-                  button
-                  divider={index < tagCount - 1}
-                >
-                  {/* <ListItemText primary={tag} /> */}
-                  <div>{tag}</div>
-                  <Chip size="small" label={10} color="primary" />
-                </ListItem>
-              ))}
-            </List>
+            {newURLDataList.map((_, index) =>
+              renderNewURLInputComponent(index)
+            )}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={createNewURLInputComponent}
+            >
+              Add MORE
+            </Button>
           </DialogContent>
         </Dialog>
       </Hidden>
@@ -263,4 +312,4 @@ const SearchTagDialog = ({
   );
 };
 
-export default SearchTagDialog;
+export default AddURLDialog;

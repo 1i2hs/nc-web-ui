@@ -8,21 +8,91 @@ import Icon from "@material-ui/core/Icon";
 
 import { MainMenuItemName } from "../../types";
 
+type MenuItemProps = {
+  selected?: boolean;
+  iconString: string;
+  menuName: string;
+  mainMenuItemName: MainMenuItemName;
+  onClickMenuItem?: (event: React.MouseEvent) => void;
+};
+
+const MenuItem = ({
+  selected = false,
+  iconString,
+  menuName,
+  // mainMenuItemName,
+  onClickMenuItem = () => {},
+}: MenuItemProps) => (
+  // <ListItem button onClick={onClickMenuItem.bind(MenuItem, mainMenuItemName)}>
+  <ListItem button onClick={onClickMenuItem}>
+    <ListItemIcon>
+      <Icon color={selected ? "primary" : "inherit"}>{iconString}</Icon>
+    </ListItemIcon>
+    <ListItemText
+      primary={menuName}
+      primaryTypographyProps={selected ? { color: "primary" } : {}}
+    />
+  </ListItem>
+);
+
 type MainMenuProps = {
-  onClickMenuItem?: (
-    clickedItem: MainMenuItemName,
+  selectedMenuItemName?: MainMenuItemName;
+  onChangeMenuItem?: (
+    newMenuItemName: MainMenuItemName,
     event: React.MouseEvent
   ) => void;
 };
 
-const MainMenu = ({ onClickMenuItem = () => {} }: MainMenuProps) => {
+const MainMenu = ({
+  selectedMenuItemName = "all",
+  onChangeMenuItem = () => {},
+}: MainMenuProps) => {
   return (
     <List aria-label="all favorites archieved tags">
-      <ListItem button onClick={onClickMenuItem.bind(MainMenu, "all")}>
+      <MenuItem
+        selected={selectedMenuItemName === "all"}
+        iconString="inbox"
+        menuName="All"
+        mainMenuItemName="all"
+        onClickMenuItem={(event) => {
+          onChangeMenuItem("all", event);
+        }}
+      />
+      <MenuItem
+        selected={selectedMenuItemName === "favorite"}
+        iconString="favorite"
+        menuName="Favorites"
+        mainMenuItemName="favorite"
+        onClickMenuItem={(event) => {
+          onChangeMenuItem("favorite", event);
+        }}
+      />
+      <MenuItem
+        selected={selectedMenuItemName === "archive"}
+        iconString="archive"
+        menuName="Archives"
+        mainMenuItemName="archive"
+        onClickMenuItem={(event) => {
+          onChangeMenuItem("archive", event);
+        }}
+      />
+      <MenuItem
+        selected={selectedMenuItemName === "tag"}
+        iconString="local_offer"
+        menuName="Tags"
+        mainMenuItemName="tag"
+        onClickMenuItem={(event) => {
+          onChangeMenuItem("tag", event);
+        }}
+      />
+      {/* <ListItem button onClick={onClickMenuItem.bind(MainMenu, "all")}>
         <ListItemIcon>
-          <Icon>inbox</Icon>
+          <Icon color="primary">inbox</Icon>
         </ListItemIcon>
-        <ListItemText primary="All" />
+        <ListItemText
+          primary="All"
+          primaryTypographyProps={{ color: "primary" }}
+        />
       </ListItem>
       <ListItem button onClick={onClickMenuItem.bind(MainMenu, "favorite")}>
         <ListItemIcon>
@@ -41,7 +111,7 @@ const MainMenu = ({ onClickMenuItem = () => {} }: MainMenuProps) => {
           <Icon>local_offer</Icon>
         </ListItemIcon>
         <ListItemText primary="Tag" />
-      </ListItem>
+      </ListItem> */}
     </List>
   );
 };

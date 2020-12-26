@@ -7,22 +7,21 @@ import Icon from "@material-ui/core/Icon";
 import { MainMenuItemName } from "../../types";
 
 type MainBottomMenuProps = {
+  selectedMenuItemName?: MainMenuItemName;
   onChangeMenuItem?: (
-    clickedItem: MainMenuItemName,
+    newMenuItemName: MainMenuItemName,
     event: React.ChangeEvent<any>
   ) => void;
 };
 
 const MainBottomMenu = ({
+  selectedMenuItemName = "all",
   onChangeMenuItem = () => {},
 }: MainBottomMenuProps) => {
-  const [selectedMenu, setSelectedMenu] = React.useState(0);
-
   return (
     <BottomNavigation
-      value={selectedMenu}
+      value={selectedMenuItemName}
       onChange={(event, newlySelectedMenu) => {
-        setSelectedMenu(newlySelectedMenu);
         onChangeMenuItem(newlySelectedMenu, event);
       }}
       showLabels

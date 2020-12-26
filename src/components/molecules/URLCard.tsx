@@ -32,6 +32,7 @@ type URLCardProps = {
   onClick?: (event: React.MouseEvent) => void;
   onClickFavorite?: (isFavorite: boolean) => void;
   onClickShare?: (event: React.MouseEvent) => void;
+  onClickArchive?: (event: React.MouseEvent) => void;
   onClickDelete?: (event: React.MouseEvent) => void;
   onClickTag?: (tag: string, event: React.MouseEvent) => void;
   style?: React.CSSProperties;
@@ -51,6 +52,7 @@ const URLCard = React.forwardRef(
       onClick = () => {},
       onClickFavorite = () => {},
       onClickShare = () => {},
+      onClickArchive = () => {},
       onClickDelete = () => {},
       onClickTag = () => {},
       style = {},
@@ -111,6 +113,13 @@ const URLCard = React.forwardRef(
             </IconButton>
             <IconButton title="share" aria-label="share" onClick={onClickShare}>
               <Icon>share</Icon>
+            </IconButton>
+            <IconButton
+              title="archive"
+              aria-label="archive"
+              onClick={onClickArchive}
+            >
+              <Icon>archive</Icon>
             </IconButton>
             <IconButton
               title="delete"

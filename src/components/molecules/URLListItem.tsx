@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import Chip from "@material-ui/core/Chip";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import { URLData } from "../../types";
 import * as Util from "../../util";
@@ -40,6 +42,7 @@ type URLListItemProps = {
   onClick?: (event: React.MouseEvent) => void;
   onClickFavorite?: (isFavorite: boolean, event: React.MouseEvent) => void;
   onClickShare?: (event: React.MouseEvent) => void;
+  onClickArchive?: (event: React.MouseEvent) => void;
   onClickDelete?: (event: React.MouseEvent) => void;
   onClickTag?: (tag: string, event: React.MouseEvent) => void;
   style?: React.CSSProperties;
@@ -59,6 +62,7 @@ const URLListItem = React.forwardRef(
       onClick = () => {},
       onClickFavorite = () => {},
       onClickShare = () => {},
+      onClickArchive = () => {},
       onClickDelete = () => {},
       onClickTag = () => {},
       style = {},
@@ -66,6 +70,26 @@ const URLListItem = React.forwardRef(
     ref: React.ForwardedRef<HTMLDivElement>
   ) => {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleOpenMoreMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMoreMenu = (event: any, reason: string) => {
+      setAnchorEl(null);
+    };
+
+    const handleDelete = (event: React.MouseEvent) => {
+      setAnchorEl(null);
+      onClickDelete(event);
+    };
+
+    const handleArchive = (event: React.MouseEvent) => {
+      setAnchorEl(null);
+      onClickArchive(event);
+    };
+
     return (
       <div className={classes.root} ref={ref} style={style}>
         <CardActionArea
@@ -125,7 +149,7 @@ const URLListItem = React.forwardRef(
                       <Icon>share</Icon>
                     </IconButton>
                   </Grid>
-                  <Grid className={classes.secondaryButton} item>
+                  {/* <Grid className={classes.secondaryButton} item>
                     <IconButton
                       title="delete"
                       aria-label="delete"
@@ -135,6 +159,18 @@ const URLListItem = React.forwardRef(
                       )}
                     >
                       <Icon>delete</Icon>
+                    </IconButton>
+                  </Grid> */}
+                  <Grid className={classes.secondaryButton} item>
+                    <IconButton
+                      title="more"
+                      aria-label="more"
+                      size="small"
+                      onClick={Util.wrapClickHandlerWithStopPropagation(
+                        handleOpenMoreMenu
+                      )}
+                    >
+                      <Icon>more_vert</Icon>
                     </IconButton>
                   </Grid>
                 </Grid>
@@ -157,6 +193,15 @@ const URLListItem = React.forwardRef(
             </Grid>
           </Grid>
         </CardActionArea>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleCloseMoreMenu}
+        >
+          <MenuItem onClick={handleArchive}>Archive</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </Menu>
       </div>
     );
   }

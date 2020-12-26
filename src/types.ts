@@ -9,3 +9,8 @@ export interface URLData {
 }
 
 export type MainMenuItemName = "all" | "favorite" | "archive" | "tag";
+
+export interface NewURLData {
+  url: string;
+  tagList: Array<string>;
+}
