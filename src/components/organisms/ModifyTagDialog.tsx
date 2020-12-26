@@ -5,14 +5,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Chip from "@material-ui/core/Chip";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
-import Hidden from "@material-ui/core/Hidden";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { TransitionProps } from "@material-ui/core/transitions";
@@ -164,51 +159,45 @@ const ModifyTagDialog = ({
   }, [selection]);
 
   return (
-    <>
-      {/* non-mobile */}
-      {/* <Hidden xsDown> */}
-      <Dialog
-        open={open}
-        fullWidth
-        maxWidth={"sm"}
-        onEscapeKeyDown={onClickClose}
-        scroll="paper"
-      >
-        <DialogTitle id="modify-tag-dialog-title">Modify Tag</DialogTitle>
-        {/* <SearchTagField onChangeText={(tag) => console.log(tag)} /> */}
-        <DialogContent>
-          <SearchTagAutoComplete
-            data={tagList === undefined || tagList === null ? [] : tagList}
-            onChangeTagSelection={(_, selection) => {
-              setModifiedSelection(selection);
-            }}
-            selection={modifiedSelection}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            title="close dialog"
-            aria-label="close dialog"
-            onClick={onClickClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            title="apply tags"
-            aria-label="apply tags"
-            color="primary"
-            onClick={(event) => {
-              // TODO update DB;
-              onClickApply(modifiedSelection, event);
-            }}
-          >
-            Apply
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {/* </Hidden> */}
-      {/* mobile */}
-    </>
+    <Dialog
+      open={open}
+      fullWidth
+      maxWidth={"sm"}
+      onEscapeKeyDown={onClickClose}
+      scroll="paper"
+    >
+      <DialogTitle id="modify-tag-dialog-title">Modify Tag</DialogTitle>
+      {/* <SearchTagField onChangeText={(tag) => console.log(tag)} /> */}
+      <DialogContent>
+        <SearchTagAutoComplete
+          data={tagList === undefined || tagList === null ? [] : tagList}
+          onChangeTagSelection={(_, selection) => {
+            setModifiedSelection(selection);
+          }}
+          selection={modifiedSelection}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button
+          title="close dialog"
+          aria-label="close dialog"
+          onClick={onClickClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          title="apply tags"
+          aria-label="apply tags"
+          color="primary"
+          onClick={(event) => {
+            // TODO update DB;
+            onClickApply(modifiedSelection, event);
+          }}
+        >
+          Apply
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
