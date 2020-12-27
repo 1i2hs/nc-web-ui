@@ -4,6 +4,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Chip from "@material-ui/core/Chip";
 
+import Context from "../../context";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     listItem: {
@@ -14,40 +16,29 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TagList = () => {
   const classes = useStyles();
-  const [tagList, setTagList] = React.useState<Array<string>>([
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-  ]);
+  const contextData = React.useContext(Context);
+  const [tagList, setTagList] = React.useState<Array<string>>([]);
 
-  //   React.useEffect(() => {
-  //     // TODO fetch tag list from the db
-  //   }, [tagList]);
+  React.useEffect(() => {
+    // TODO fetch tag list from the db
+    contextData.setLoading(true);
+    const timer = setTimeout(() => {
+      contextData.setLoading(false);
+      setTagList([
+        "tag1",
+        "tag2",
+        "tag3",
+        "tag4",
+        "tag5",
+        "tag6",
+        "tag7",
+        "tag8",
+        "tag9",
+        "tag10",
+      ]);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const tagCount = tagList.length;
 

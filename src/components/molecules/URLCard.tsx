@@ -16,7 +16,7 @@ import * as Util from "../../util";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      maxWidth: 780,
+      // maxWidth: 780,
     },
     media: {
       height: 160,

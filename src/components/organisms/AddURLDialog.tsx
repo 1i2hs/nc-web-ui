@@ -212,9 +212,9 @@ const AddURLDialog = ({
           open={open}
           fullWidth
           maxWidth={"xs"}
-          onEscapeKeyDown={(event) => {
+          onEscapeKeyDown={onClickClose}
+          onExited={() => {
             setNewURLDataList(baseNewUrlDataList);
-            onClickClose(event);
           }}
           scroll="paper"
         >
@@ -235,10 +235,7 @@ const AddURLDialog = ({
             <Button
               title="close dialog"
               aria-label="close dialog"
-              onClick={(event) => {
-                setNewURLDataList(baseNewUrlDataList);
-                onClickClose(event);
-              }}
+              onClick={onClickClose}
             >
               Cancel
             </Button>
@@ -246,10 +243,7 @@ const AddURLDialog = ({
               title="add url"
               aria-label="add url"
               color="primary"
-              onClick={(event) => {
-                setNewURLDataList(baseNewUrlDataList);
-                onClickAdd(event);
-              }}
+              onClick={onClickAdd}
             >
               Add
             </Button>
@@ -263,6 +257,9 @@ const AddURLDialog = ({
           open={open}
           TransitionComponent={Transition}
           scroll="paper"
+          onExited={() => {
+            setNewURLDataList(baseNewUrlDataList);
+          }}
         >
           <DialogTitle
             id="add-url-dialog-title"
@@ -273,10 +270,7 @@ const AddURLDialog = ({
               <IconButton
                 title="close dialog"
                 aria-label="close dialog"
-                onClick={(event) => {
-                  setNewURLDataList(baseNewUrlDataList);
-                  onClickClose(event);
-                }}
+                onClick={onClickClose}
               >
                 <Icon>close</Icon>
               </IconButton>
@@ -286,10 +280,7 @@ const AddURLDialog = ({
               title="add url"
               aria-label="add url"
               color="primary"
-              onClick={(event) => {
-                setNewURLDataList(baseNewUrlDataList);
-                onClickAdd(event);
-              }}
+              onClick={onClickAdd}
             >
               Add
             </Button>

@@ -9,6 +9,16 @@ type URLListProps = {
   data: Array<URLData>;
 };
 
+const PLACEHOLDER_URLCARD: URLData = {
+  id: "placeholder",
+  title: "placeholder",
+  dateAdded: "no-date",
+  abstract: "placeholder",
+  url: "placeholder",
+  isFavorite: false,
+  tagList: [],
+};
+
 const cardHeightMap: any = {};
 
 const URLCardList = ({ data = [] }: URLListProps) => {
@@ -31,7 +41,7 @@ const URLCardList = ({ data = [] }: URLListProps) => {
       console.log(`clicked card, ${index}`);
     };
 
-    return (
+    return index > 0 ? (
       <URLCard
         ref={cardRef}
         key={data.id}
@@ -43,11 +53,14 @@ const URLCardList = ({ data = [] }: URLListProps) => {
         // onClickTag={}
         style={style}
       />
+    ) : (
+      <div style={{ height: 96 }} />
     );
   };
 
   function getCardHeight(index: number) {
-    return cardHeightMap[index] + 8 || 253.594; // default Card Height;
+    // default card height: 253.594 / placeholder height: 96
+    return index > 0 ? cardHeightMap[index] || 261 : 96;
   }
 
   function setCardHeight(index: number, size: number) {
@@ -64,7 +77,7 @@ const URLCardList = ({ data = [] }: URLListProps) => {
           height={height}
           width={width}
           itemCount={data.length}
-          itemData={data}
+          itemData={[PLACEHOLDER_URLCARD].concat(data)}
           itemSize={getCardHeight}
           ref={listRef}
         >

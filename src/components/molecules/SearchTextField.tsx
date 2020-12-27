@@ -33,12 +33,13 @@ type SearchTextFieldProps = {
   width?: string | number;
   multiline?: boolean;
   secondaryActionButton?: React.ReactElement | null;
+  style?: React.CSSProperties;
 };
 
 const SearchTextField = ({
-  width = "100%",
   multiline = false,
   secondaryActionButton,
+  style = {},
 }: SearchTextFieldProps) => {
   const classes = useStyles();
   const [text, setText] = React.useState("");
@@ -61,7 +62,7 @@ const SearchTextField = ({
   };
 
   return (
-    <Paper className={classes.root} style={{ width }}>
+    <Paper className={classes.root} style={style}>
       <InputBase
         className={classes.input}
         placeholder="Search"
@@ -97,13 +98,6 @@ const SearchTextField = ({
           </InputAdornment>
         }
       />
-      {/* <IconButton
-        title="search"
-        aria-label="Go Search!"
-        onClick={handleClickSearch}
-      >
-        <Icon>search</Icon>
-      </IconButton> */}
     </Paper>
   );
 };
