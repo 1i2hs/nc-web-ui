@@ -8,7 +8,6 @@ import Icon from "@material-ui/core/Icon";
 import Chip from "@material-ui/core/Chip";
 
 import { URLData } from "../../types";
-import * as Util from "../../util";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
