@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+let shiftKeyPressed = false;
+
 type SearchTextFieldProps = {
   width?: string | number;
   multiline?: boolean;
@@ -54,10 +56,25 @@ const SearchTextField = ({
     inputRef.current?.focus();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Shift") {
+      shiftKeyPressed = true;
+    }
+    if (!shiftKeyPressed && event.key === "Enter") {
+      // disable default line change action
+      console.log("does not change line");
+      event.preventDefault();
+    }
+  };
+
   const handleKeyUp = (event: React.KeyboardEvent) => {
-    if (text.length > 0 && event.key === "Enter") {
+    if (text.length > 0 && !shiftKeyPressed && event.key === "Enter") {
       // execute search
+      console.log("search");
       console.log(text);
+    }
+    if (event.key === "Shift") {
+      shiftKeyPressed = false;
     }
   };
 
@@ -72,6 +89,7 @@ const SearchTextField = ({
         inputRef={inputRef}
         multiline={multiline}
         onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyDown}
         startAdornment={
           <InputAdornment position="start">
             <Icon>search</Icon>
