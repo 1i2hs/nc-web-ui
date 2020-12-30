@@ -2,7 +2,6 @@ import * as React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,13 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
 type MainPageTemplateProps = {
   searchTextField: React.ReactElement;
   mainMenu: React.ReactElement;
-  urlCardList: React.ReactElement;
+  content: React.ReactElement;
 };
 
 const MainPageTemplate = ({
   searchTextField,
   mainMenu,
-  urlCardList,
+  content,
 }: MainPageTemplateProps) => {
   const classes = useStyles();
   return (
@@ -40,7 +39,7 @@ const MainPageTemplate = ({
             {mainMenu}
           </Grid>
           <Grid className={classes.content} item sm={8}>
-            {urlCardList}
+            {content}
           </Grid>
           <Grid item sm={2}></Grid>
         </Grid>

@@ -1,79 +1,76 @@
 import * as React from "react";
-import { VariableSizeList, ListChildComponentProps } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { Virtuoso } from "react-virtuoso";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 
 import URLListItem from "../molecules/URLListItem";
 import { URLData } from "../../types";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    placeholder: {
+      height: 96,
+    },
+  })
+);
+
 type URLListProps = {
   data: Array<URLData>;
 };
 
-const itemHeightMap: any = {};
-
 const URLItemList = ({ data = [] }: URLListProps) => {
-  const listRef = React.useRef<VariableSizeList>(null);
+  console.log("URLItemList");
+  const classes = useStyles();
 
-  const Item = ({ data, index, style }: ListChildComponentProps) => {
-    const itemRef = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-      if (itemRef.current) {
-        setItemHeight(index, itemRef.current.clientHeight);
-      }
-    }, [index, itemRef]);
-
-    const handleClickFavoriteButton = (isFavorite: boolean) => {
-      console.log(isFavorite);
-    };
-
-    const handleClickCard = (event: React.MouseEvent) => {
-      console.log(`clicked card, ${index}`);
-    };
-
-    return (
-      <div style={style} ref={itemRef}>
-        <URLListItem
-          key={data.id}
-          data={data[index]}
-          onClick={handleClickCard}
-          onClickFavorite={handleClickFavoriteButton}
-          // onClickDelete={}
-          // onClickShare={}
-          // onClickTag={}
-        />
-        <Divider />
-      </div>
-    );
+  const handleClickCard = (urlData: URLData) => {
+    console.log(`clicked card, ${urlData.title}`);
   };
 
-  function getItemHeight(index: number) {
-    return itemHeightMap[index] + 8 || 189.594; // default Card Height;
-  }
+  const handleClickFavoriteButton = (isFavorite: boolean, urlData: URLData) => {
+    console.log(isFavorite);
+  };
 
-  function setItemHeight(index: number, size: number) {
-    listRef?.current?.resetAfterIndex(0);
-    if (!itemHeightMap[index]) {
-      itemHeightMap[index] = size;
-    }
-  }
+  const handleClickTag = (tag: string) => {
+    console.log(`clicked tag: ${tag}`);
+  };
+
+  const handleClickShareButton = (url: string, urlData: URLData) => {
+    console.log("clicked share button");
+  };
+
+  const handleClickArchiveButton = (urlData: URLData) => {
+    console.log("clicked archive button");
+  };
+
+  const handleClickDeleteButton = (urlData: URLData) => {
+    console.log("clicked delete button");
+  };
 
   return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <VariableSizeList
-          height={height}
-          width={width}
-          itemCount={data.length}
-          itemData={data}
-          itemSize={getItemHeight}
-          ref={listRef}
-        >
-          {Item}
-        </VariableSizeList>
-      )}
-    </AutoSizer>
+    <Virtuoso
+      data={data}
+      alignToBottom
+      overscan={1200}
+      components={{
+        Header: () => <div className={classes.placeholder}></div>,
+      }}
+      itemContent={(index, data) => {
+        return (
+          <div key={`${data.id}-${index}`}>
+            <Divider />
+            <URLListItem
+              data={data}
+              onClick={handleClickCard}
+              onClickFavorite={handleClickFavoriteButton}
+              onClickTag={handleClickTag}
+              onClickShare={handleClickShareButton}
+              onClickArchive={handleClickArchiveButton}
+              onClickDelete={handleClickDeleteButton}
+            />
+          </div>
+        );
+      }}
+    />
   );
 };
 

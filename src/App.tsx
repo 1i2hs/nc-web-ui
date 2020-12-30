@@ -28,9 +28,9 @@ import { URLData, MainMenuItemName } from "./types";
 import themeConfig from "./themeConfig";
 import Context from "./context";
 
-import { makeSampleData } from "./sampleData";
+import { generateFakeURLData } from "./testData";
 
-const urlDataList = makeSampleData(1000);
+// const urlDataList = generateFakeURLData(1000);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -169,7 +169,7 @@ const AddURLDialog = ({
   const tagCount = tagList.length;
 
   const renderNewURLInputComponent = (index: number) => (
-    <div>
+    <div key={index}>
       <AddURLTextField
         onBlur={(urlText) => {
           setNewURLDataList(
