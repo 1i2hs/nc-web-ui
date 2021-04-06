@@ -18,8 +18,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
-    // material-ui configs
+    "jsx": "react-jsx",
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true

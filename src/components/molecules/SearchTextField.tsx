@@ -51,12 +51,12 @@ const SearchTextField = ({
     setText(event.target.value);
   };
 
-  const handleClearText = () => {
+  const handleClearText = React.useCallback(() => {
     setText("");
     inputRef.current?.focus();
-  };
+  }, []);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
     if (event.key === "Shift") {
       shiftKeyPressed = true;
     }
@@ -65,9 +65,9 @@ const SearchTextField = ({
       console.log("does not change line");
       event.preventDefault();
     }
-  };
+  }, []);
 
-  const handleKeyUp = (event: React.KeyboardEvent) => {
+  const handleKeyUp = React.useCallback((event: React.KeyboardEvent) => {
     if (text.length > 0 && !shiftKeyPressed && event.key === "Enter") {
       // execute search
       console.log("search");
@@ -76,7 +76,7 @@ const SearchTextField = ({
     if (event.key === "Shift") {
       shiftKeyPressed = false;
     }
-  };
+  }, []);
 
   return (
     <Paper className={classes.root} style={style}>

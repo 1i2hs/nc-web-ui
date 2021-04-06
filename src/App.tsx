@@ -7,6 +7,10 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import MainPage from "./components/pages/MainPage";
+import PageViewerPage from "./components/pages/PageViewerPage";
+
+import PageViewerToolbar from "./components/molecules/PageViewerToolbar";
+import { generateFakeURLData } from "./testData";
 
 import { URLData, MainMenuItemName } from "./types";
 import themeConfig from "./themeConfig";
@@ -21,13 +25,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const singleFakeURLData = generateFakeURLData(1).all[0];
+
 function App() {
   const classes = useStyles();
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [loading, setLoading] = React.useState(false);
-  const [selectedMenuItemName, setSelectedMenuItemName] = React.useState<
-    MainMenuItemName
-  >("all");
+  const [
+    selectedMenuItemName,
+    setSelectedMenuItemName,
+  ] = React.useState<MainMenuItemName>("all");
 
   const [openDeleteAlertDialog, setOpenDeleteDialog] = React.useState(false);
   const [openSearchTagDialog, setOpenSearchTagDialog] = React.useState(false);
@@ -57,6 +64,7 @@ function App() {
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        {/* <PageViewerPage /> */}
         <MainPage />
         <Backdrop className={classes.backdrop} open={loading}>
           <CircularProgress color="inherit" />

@@ -7,11 +7,17 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 import SearchTagAutoComplete from "../molecules/SearchTagAutoComplete";
 
+import { generateFakeTagList } from "../../testData";
+import { TagData } from "../../types";
+
 type ModifyTagDialogProps = {
   open: boolean;
-  selection: Array<string>;
-  onClickClose: (event: React.MouseEvent) => void;
-  onClickApply: (selection: Array<string>, event: React.MouseEvent) => void;
+  selection: Array<TagData>;
+  onClickClose: (event: React.MouseEvent | React.TouchEvent) => void;
+  onClickApply: (
+    selection: Array<TagData>,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
 };
 
 const ModifyTagDialog = ({
@@ -21,38 +27,24 @@ const ModifyTagDialog = ({
   onClickApply = () => {},
 }: ModifyTagDialogProps) => {
   const [modifiedSelection, setModifiedSelection] = React.useState<
-    Array<string>
+    Array<TagData>
   >(selection);
-  const [tagList, setTagList] = React.useState<Array<string>>([
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-  ]);
+  const [tagList, setTagList] = React.useState<Array<TagData>>([]);
+
+  React.useEffect(() => {
+    // const fetchTagList = async () => {
+    //   const { data } = await axios.get("https://www.google.com", {
+    //     headers: { "Access-Control-Allow-Origin": "*" },
+    //   });
+    //   console.log(data);
+    // };
+    // fetchTagList();
+    const timeout = setTimeout(() => {
+      setTagList(generateFakeTagList(40));
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   React.useEffect(() => {
     setModifiedSelection(selection);

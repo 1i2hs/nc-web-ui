@@ -22,29 +22,35 @@ const URLItemList = ({ data = [] }: URLListProps) => {
   console.log("URLItemList");
   const classes = useStyles();
 
-  const handleClickCard = (urlData: URLData) => {
+  const handleClickCard = React.useCallback((urlData: URLData) => {
     console.log(`clicked card, ${urlData.title}`);
-  };
+  }, []);
 
-  const handleClickFavoriteButton = (isFavorite: boolean, urlData: URLData) => {
-    console.log(isFavorite);
-  };
+  const handleClickFavoriteButton = React.useCallback(
+    (isFavorite: boolean, urlData: URLData) => {
+      console.log(isFavorite);
+    },
+    []
+  );
 
-  const handleClickTag = (tag: string) => {
+  const handleClickTag = React.useCallback((tag: string) => {
     console.log(`clicked tag: ${tag}`);
-  };
+  }, []);
 
-  const handleClickShareButton = (url: string, urlData: URLData) => {
-    console.log("clicked share button");
-  };
+  const handleClickShareButton = React.useCallback(
+    (url: string, urlData: URLData) => {
+      console.log("clicked share button");
+    },
+    []
+  );
 
-  const handleClickArchiveButton = (urlData: URLData) => {
+  const handleClickArchiveButton = React.useCallback((urlData: URLData) => {
     console.log("clicked archive button");
-  };
+  }, []);
 
-  const handleClickDeleteButton = (urlData: URLData) => {
+  const handleClickDeleteButton = React.useCallback((urlData: URLData) => {
     console.log("clicked delete button");
-  };
+  }, []);
 
   return (
     <Virtuoso

@@ -5,6 +5,7 @@ import Autocomplete, {
   AutocompleteChangeReason,
   AutocompleteChangeDetails,
 } from "@material-ui/lab/Autocomplete";
+import { TagData } from "../../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,15 +20,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type SearchTagAutoCompleteProps = {
-  data: Array<string>;
+  data: Array<TagData>;
   isLoading?: boolean;
   onChangeTagSelection?: (
     event: React.ChangeEvent<{}>,
-    selection: Array<string>,
+    selection: Array<TagData>,
     reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<string> | undefined
+    details?: AutocompleteChangeDetails<TagData> | undefined
   ) => void;
-  selection?: Array<string>;
+  selection?: Array<TagData>;
   style?: React.CSSProperties;
 };
 
@@ -47,7 +48,7 @@ const SearchTagAutoComplete = ({
       options={data}
       value={selection}
       loading={isLoading}
-      getOptionLabel={(option) => option}
+      getOptionLabel={(option) => option.tag}
       filterSelectedOptions
       onChange={onChangeTagSelection}
       renderInput={(params) => (

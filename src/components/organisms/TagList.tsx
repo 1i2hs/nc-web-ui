@@ -23,13 +23,16 @@ const TagList = ({ data = [] }: TagListProps) => {
 
   const tagCount = data.length;
 
-  const handleTagClick = (
-    tag: string,
-    index: number,
-    event: React.MouseEvent
-  ) => {
-    console.log(tag, index);
-  };
+  const handleTagClick = React.useCallback(
+    (
+      tag: string,
+      index: number,
+      event: React.MouseEvent | React.TouchEvent
+    ) => {
+      console.log(tag, index);
+    },
+    []
+  );
 
   return (
     <List>

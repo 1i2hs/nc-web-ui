@@ -39,16 +39,29 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type URLListItemProps = {
   data: URLData;
-  onClick?: (data: URLData, event: React.MouseEvent) => void;
+  onClick?: (data: URLData, event: React.MouseEvent | React.TouchEvent) => void;
   onClickFavorite?: (
     isFavorite: boolean,
     data: URLData,
-    event: React.MouseEvent
+    event: React.MouseEvent | React.TouchEvent
   ) => void;
-  onClickShare?: (url: string, data: URLData, event: React.MouseEvent) => void;
-  onClickArchive?: (data: URLData, event: React.MouseEvent) => void;
-  onClickDelete?: (data: URLData, event: React.MouseEvent) => void;
-  onClickTag?: (tag: string, event: React.MouseEvent) => void;
+  onClickShare?: (
+    url: string,
+    data: URLData,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onClickArchive?: (
+    data: URLData,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onClickDelete?: (
+    data: URLData,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
+  onClickTag?: (
+    tag: string,
+    event: React.MouseEvent | React.TouchEvent
+  ) => void;
   style?: React.CSSProperties;
 };
 

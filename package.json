@@ -12,23 +12,31 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.8",
+    "@types/react-pdf": "^5.0.0",
     "@types/react-router-dom": "^5.1.6",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.5.1",
-    "prettier": "^2.1.2",
+    "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-pdf": "^5.1.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
+    "react-scripts": "4.0.3",
     "react-virtuoso": "^1.2.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
+  },
+  "devDependencies": {
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2",
+    "@types/faker": "^5.1.5",
+    "faker": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write src"
   },
   "eslintConfig": {
     "extends": [
@@ -57,9 +65,5 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
-  },
-  "devDependencies": {
-    "@types/faker": "^5.1.5",
-    "faker": "^5.1.0"
   }
 }

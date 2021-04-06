@@ -10,8 +10,8 @@ type DeleteAlertDialogProps = {
   open: boolean;
   message: string;
   description?: string;
-  onClickCancel: (event: React.MouseEvent) => void;
-  onClickDelete: (event: React.MouseEvent) => void;
+  onClickCancel: (event: React.MouseEvent | React.TouchEvent) => void;
+  onClickDelete: (event: React.MouseEvent | React.TouchEvent) => void;
 };
 
 const DeleteAlertDialog = ({

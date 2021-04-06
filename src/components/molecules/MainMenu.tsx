@@ -21,7 +21,7 @@ type MenuItemProps = {
   iconString: string;
   menuName: string;
   mainMenuItemName: MainMenuItemName;
-  onClickMenuItem?: (event: React.MouseEvent) => void;
+  onClickMenuItem?: (event: React.MouseEvent | React.TouchEvent) => void;
 };
 
 const MenuItem = ({
@@ -47,7 +47,7 @@ type MainMenuProps = {
   selectedMenuItemName?: MainMenuItemName;
   onChangeMenuItem?: (
     newMenuItemName: MainMenuItemName,
-    event: React.MouseEvent
+    event: React.MouseEvent | React.TouchEvent
   ) => void;
   style?: React.CSSProperties;
 };
@@ -61,7 +61,7 @@ const MainMenu = ({
   return (
     <List
       className={classes.root}
-      aria-label="all favorites archieved tags"
+      aria-label="all favorites archived tags"
       style={style}
     >
       <MenuItem

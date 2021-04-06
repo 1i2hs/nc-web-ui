@@ -16,7 +16,8 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 import SearchTagAutoComplete from "../molecules/SearchTagAutoComplete";
-import { NewURLData } from "../../types";
+import { NewURLData, TagData } from "../../types";
+import { generateFakeTagList } from "../../testData";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,22 +65,26 @@ const AddURLTextField = ({
   const [text, setText] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleTextChange = (event: React.ChangeEvent<{ value: string }>) => {
-    const changedText = event.target.value;
-    setText(changedText);
-    onChangeText(changedText, event);
-  };
+  const handleTextChange = React.useCallback(
+    (event: React.ChangeEvent<{ value: string }>) => {
+      const changedText = event.target.value;
+      setText(changedText);
+      onChangeText(changedText, event);
+    },
+    [onChangeText]
+  );
 
-  const handleBlur = (
-    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    onBlur(text, event);
-  };
+  const handleBlur = React.useCallback(
+    (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      onBlur(text, event);
+    },
+    [onBlur]
+  );
 
-  const handleClearText = () => {
+  const handleClearText = React.useCallback(() => {
     setText("");
     inputRef.current?.focus();
-  };
+  }, []);
 
   return (
     <OutlinedInput
@@ -134,9 +139,9 @@ const baseNewUrlDataList = [
 type AddURLDialogProps = {
   open: boolean;
   onClickClose: (
-    event: React.MouseEvent | React.SyntheticEvent<{}, Event>
+    event: React.MouseEvent | React.TouchEvent | React.SyntheticEvent<{}, Event>
   ) => void;
-  onClickAdd: (event: React.MouseEvent) => void;
+  onClickAdd: (event: React.MouseEvent | React.TouchEvent) => void;
 };
 
 const AddURLDialog = ({
@@ -148,23 +153,22 @@ const AddURLDialog = ({
   const [newURLDataList, setNewURLDataList] = React.useState<Array<NewURLData>>(
     baseNewUrlDataList
   );
-  const [tagList, setTagList] = React.useState<Array<string>>([
-    "tag1",
-    "tag2",
-    "tag3",
-    "tag4",
-    "tag5",
-    "tag6",
-    "tag7",
-    "tag8",
-    "tag9",
-    "tag10",
-    "tag11",
-    "tag12",
-    "tag13",
-    "tag14",
-    "tag15",
-  ]);
+  const [tagList, setTagList] = React.useState<Array<TagData>>([]);
+
+  React.useEffect(() => {
+    // const fetchTagList = async () => {
+    //   const { data } = await axios.get("https://www.google.com", {
+    //     headers: { "Access-Control-Allow-Origin": "*" },
+    //   });
+    //   console.log(data);
+    // };
+    // fetchTagList();
+    const timeout = setTimeout(() => {
+      setTagList(generateFakeTagList(40));
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const tagCount = tagList.length;
 

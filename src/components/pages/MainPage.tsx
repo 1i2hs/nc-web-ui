@@ -82,11 +82,12 @@ const MainPage = () => {
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const contextData = React.useContext(context);
+  const contextData = React.useRef(React.useContext(context));
   const [openAddURLDialog, setOpenAddURLDialog] = React.useState(false);
-  const [selectedMenuItemName, setSelectedMenuItemName] = React.useState<
-    MainMenuItemName
-  >("all");
+  const [
+    selectedMenuItemName,
+    setSelectedMenuItemName,
+  ] = React.useState<MainMenuItemName>("all");
 
   const [allURLDataList, setAllURLDataList] = React.useState<Array<URLData>>(
     []
@@ -100,33 +101,34 @@ const MainPage = () => {
   const [tagList, setTagList] = React.useState<Array<TagData>>([]);
 
   React.useEffect(() => {
+    console.log("here");
     switch (selectedMenuItemName) {
       case "all":
-        contextData.setLoading(true);
+        contextData.current.setLoading(true);
         setTimeout(() => {
           setAllURLDataList(dataCollection.all);
-          contextData.setLoading(false);
+          contextData.current.setLoading(false);
         }, 2000);
         break;
       case "favorite":
-        contextData.setLoading(true);
+        contextData.current.setLoading(true);
         setTimeout(() => {
           setFavoriteURLDataList(dataCollection.favorite);
-          contextData.setLoading(false);
+          contextData.current.setLoading(false);
         }, 2000);
         break;
       case "archive":
-        contextData.setLoading(true);
+        contextData.current.setLoading(true);
         setTimeout(() => {
           setArchivedURLDataList(dataCollection.archive);
-          contextData.setLoading(false);
+          contextData.current.setLoading(false);
         }, 2000);
         break;
       case "tag":
-        contextData.setLoading(true);
+        contextData.current.setLoading(true);
         setTimeout(() => {
           setTagList(dataCollection.tag);
-          contextData.setLoading(false);
+          contextData.current.setLoading(false);
         }, 1500);
         break;
       default:

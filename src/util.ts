@@ -10,3 +10,14 @@ export function wrapClickHandlerWithStopPropagation(fn: (...args: any) => any) {
     }
   };
 }
+
+export function debounce(fn: (...args: any) => any, milliseconds: number) {
+  let timer: number | undefined;
+  return (...args: any) => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      timer = undefined;
+      fn(args);
+    }, milliseconds);
+  };
+}

@@ -14,6 +14,9 @@ type RecentURLListProps = {
   count?: number;
 };
 
+/**
+ * @deprecated
+ */
 const RecentURLList = ({ data, count = 4 }: RecentURLListProps) => {
   const recentList =
     data === null || data === undefined
